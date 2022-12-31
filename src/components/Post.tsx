@@ -1,29 +1,46 @@
 import { format, formatDistanceToNow } from "date-fns/esm";
 import { ptBR } from "date-fns/locale";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
 import styles from "./Post.module.css";
 
-export function Post({ author, content, publishedAt }) {
+interface Author {
+  name: string;
+  role: string;
+  avatarUrl: string;
+}
+
+interface Content {
+  type: string;
+  content: string;
+}
+
+interface PostProps {
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
+}
+
+export function Post({ author, content, publishedAt }: PostProps) {
   const [comments, setComments] = useState(["Post muito bacana"]);
 
   const [newCommentText, setNewCommentText] = useState("");
 
   const publishedDateFormatted = format(
-    props.publishedAt,
+    publishedAt,
     "d 'de' LLLL 'às' HH:mm'h'",
     { locale: ptBR }
   );
 
-  const publishedDateRelativeToNow = formatDistanceToNow(props.publishedAt, {
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
   });
 
-  function handleCreateNewComment() {
+  function handleCreateNewComment(event: FormEvent) {
     event.preventDefault();
 
     setComments([...comments, newCommentText]);
@@ -31,23 +48,23 @@ export function Post({ author, content, publishedAt }) {
     setNewCommentText("");
   }
 
-  function handleNewCommentChange() {
-    event.target.setCustomValidty("");
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("");
     setNewCommentText(event.target.value);
   }
 
-  function handleNewCommentInvalid() {
-    event.target.setCustomValidty("Esee campo é obrigatório");
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("Esee campo é obrigatório");
   }
 
-  function deleteComment(commentToDelete) {
+  function deleteComment(commentToDelete: string) {
     const commentsWinthoutDeletedOne = comments.filter((comment) => {
       return comment !== commentToDelete;
     });
     setComments(commentsWinthoutDeletedOne);
   }
 
-  const isNewCommentEmpty = newCommentText.length === 0
+  const isNewCommentEmpty = newCommentText.length === 0;
 
   return (
     <article className={styles.post}>
@@ -88,7 +105,7 @@ export function Post({ author, content, publishedAt }) {
         <strong>Deixe seu feddback</strong>
 
         <textarea
-          nome="commentInput"
+          name="commentInput"
           placeholder="Deixe um comentário"
           value={newCommentText}
           onChange={handleNewCommentChange}
