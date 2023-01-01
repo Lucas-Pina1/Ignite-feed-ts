@@ -1,11 +1,16 @@
 import { Header } from "./components/Header";
-import { Post } from "./components/Post";
+import { Post, PostProps } from "./components/Post";
 import { Sidebar } from "./components/Sidebar";
 
 import styles from "./App.module.css";
 import "./global.css";
 
-const posts = [
+interface Post extends PostProps {
+  id: number;
+}
+
+
+const posts: Post[] = [
   {
     id: 1,
     author: {
@@ -14,13 +19,20 @@ const posts = [
       role: "Estágiario",
     },
     content: [
-      { type: "paragraph", content: "Lorem ipsum dolor sit,." },
+      { type: "paragraph", content: "Fala galeraa 👋" },
       {
         type: "paragraph",
         content:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam nostrum quos, repudiandae nam ducimus aspernatur quam dolores inventore culpa quidem amet a, quo quod? Ipsam eligendi ullam ducimus! Consequatur, incidunt.",
+          "Acabei de subir mais um projeto no meu portifa. O nome do projeto é Animais Fantásticos 🙈",
       },
-      { type: "link", content: "teste.dev" },
+      {
+        type: "link",
+        content: "jane.design/doctorcare",
+      },
+      {
+        type: "link",
+        content: "#origamid",
+      },
     ],
     publishedAt: new Date("2022-12-21 20:00:00"),
   },
@@ -32,21 +44,26 @@ const posts = [
       role: "CTO @ Rocketseat",
     },
     content: [
-      { type: "paragraph", content: "Lorem ipsum dolor sit,." },
+      { type: "paragraph", content: "Fala galeraa 👋" },
       {
         type: "paragraph",
         content:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam nostrum quos, repudiandae nam ducimus aspernatur quam dolores inventore culpa quidem amet a, quo quod? Ipsam eligendi ullam ducimus! Consequatur, incidunt.",
+          "Acabei de subir mais um projeto no meu portifa. É um projeto que fizno NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀",
       },
-      { type: "link", content: "teste.dev" },
+      {
+        type: "link",
+        content: "jane.design/doctorcare",
+      },
+      {
+        type: "link",
+        content: "#rocketseat",
+      },
     ],
     publishedAt: new Date("2022-12-10 20:00:00"),
   },
 ];
 
 export function App() {
-
-
   return (
     <div>
       <Header />
